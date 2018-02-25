@@ -22,8 +22,7 @@ namespace ConAppSingleInstance
             catch (WaitHandleCannotBeOpenedException mutextEx)
             {
                 // Cannot open the mutex because it doesn't exist
-                throw new WaitHandleCannotBeOpenedException($"Issue with opening wait handle. Error: {mutextEx.Message}");
-                throw;
+                WriteLine($"Error occured during the first run of the app. \nError: {mutextEx.Message}");
             }
             // Create new instance of mutex class if it doesn't exist (kind of singleton style)
             if (oneMutex == null)
@@ -34,9 +33,11 @@ namespace ConAppSingleInstance
             {
                 // Close the mutex and exit the application => only one instance of mutex can exist;
                 oneMutex.Close();
+                WriteLine("Instance of this application already exist. Hit Enter to exit !");
+                Read();
                 return;
             }
-            WriteLine("Our Application");
+            WriteLine("Applicaton is running now. Keep window open and try to open another instance of this app (run .exe)");
             Read();
         }
     }
